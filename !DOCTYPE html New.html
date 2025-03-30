@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chem Link 2025 - CV Submission</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+
+        .header {
+            background-color: #004080;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .event-info {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .registration-form {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .contact-info {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 1rem;
+        }
+
+        input, textarea, select {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #002855;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        #statusMessage {
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Chem Link 2025</h1>
+        <p>The Official Career Fair of DCPE</p>
+    </header>
+
+    <div class="event-info">
+        <h2>Event Details</h2>
+        <p>Date: 18th March 2025</p>
+        <p>Time: 9:00 AM - 11:00 AM</p>
+        <p>Venue: Salford & C</p>
+    </div>
+
+    <div class="registration-form">
+        <h2>CV Submission Form</h2>
+        <form id="cvForm" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="degree">Degree Program:</label>
+                <select id="degree" name="degree" required>
+                    <option value="">Select Degree</option>
+                    <option value="BSc Chemical Engineering">BSc Chemical Engineering</option>
+                    <option value="MSc Chemical Engineering">MSc Chemical Engineering</option>
+                    <option value="PhD Chemical Engineering">PhD Chemical Engineering</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cv">Upload CV (PDF only, max 2MB):</label>
+                <input type="file" id="cv" name="cv" accept=".pdf" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Additional Message:</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+            </div>
+
+            <button type="submit">Submit CV</button>
+        </form>
+        <div id="statusMessage"></div>
+    </div>
+
+    <div class="contact-info">
+    <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Person 1: Shamal Priyashan (President of the Chess)<br>
+        Phone: +94 76 557 2064<br>
+
+        <p>Person 2: Tashini Inoli (Secretary of the Chess)<br>
+        Phone: +94 71 488 8103<br>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzeYOIStp1pZgF0zffFa156HAWVcXLVinxFfJdQdxDbDRXHRmcaQsNg1L6O1DOvT_pviA/exec';
+        const form = document.forms['cvForm'];
+        const statusMessage = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // Client-side validation
+            const fileInput = document.getElementById('cv');
+            if (fileInput.files[0].size > 2 * 1024 * 1024) {
+                statusMessage.innerHTML = 'Error: File size exceeds 2MB limit';
+                statusMessage.style.color = 'red';
+                return;
+            }
+
+            statusMessage.innerHTML = 'Submitting...';
+            statusMessage.style.color = 'blue';
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => response.text())
+            .then(data => {
+                statusMessage.innerHTML = 'CV submitted successfully!';
+                statusMessage.style.color = 'green';
+                form.reset();
+            })
+            .catch(error => {
+                statusMessage.innerHTML = 'Error: ' + error.message;
+                statusMessage.style.color = 'red';
+            });
+        });
+    </script>
+</body>
+</html>
+
